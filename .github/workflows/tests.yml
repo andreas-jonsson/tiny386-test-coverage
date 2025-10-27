@@ -11,17 +11,16 @@ on:
 jobs:
     linux-tests:
         name: Tests
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-latest
+        container:
+            image: phix1/tiny386:latest
         timeout-minutes: 15
 
         steps:
             - uses: actions/checkout@v2
 
             - name: Setup
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install git kcov llvm clang
-                  git clone https://codeberg.org/tiny386/tiny386
+              run: git clone https://codeberg.org/tiny386/tiny386
 
             - name: Generate
               run: make -C tiny386 testdata
