@@ -1,0 +1,38 @@
+name: Tests
+
+on:
+    push:
+        branches: ["main"]
+    schedule:
+        - cron: "0 0 * * SUN"
+
+    workflow_dispatch:
+
+jobs:
+    linux-tests:
+        name: Tests
+        runs-on: ubuntu-22.04
+        timeout-minutes: 15
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Setup
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install git kcov llvm clang
+                  git clone https://codeberg.org/tiny386/tiny386
+
+            - name: Generate
+              run: make -C tiny386 testdata
+
+            - name: Build
+              run: make -C tiny386 testbin
+
+            - name: Test
+              run: cd tiny386 && kcov --include-path=src --exclude-path=src/frontend/libretro,src/tests kcov-out ./tests .
+
+            - name: Report
+              env:
+                  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+              run: bash <(curl -s https://codecov.io/bash) -s kcov-out
