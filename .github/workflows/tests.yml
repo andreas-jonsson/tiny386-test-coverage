@@ -26,6 +26,7 @@ jobs:
                   sudo apt-get install git kcov llvm clang
                   git clone https://codeberg.org/tiny386/tiny386
                   curl -L -o odin.tar.gz https://github.com/odin-lang/Odin/releases/download/${ODIN_VERSION}/odin-linux-amd64-${ODIN_VERSION}-05.tar.gz && tar -xvzf odin.tar.gz -C ./odin --strip-components=1
+                  ls -al
                   echo "${GITHUB_WORKSPACE}/odin" >> $GITHUB_PATH
 
             - name: Generate
