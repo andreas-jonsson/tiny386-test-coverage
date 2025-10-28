@@ -40,4 +40,4 @@ jobs:
             - name: Report
               env:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-              run: bash <(curl -s https://codecov.io/bash) -s kcov-out
+              run: cd tiny386 && bash <(curl -s https://codecov.io/bash) -s kcov-out
